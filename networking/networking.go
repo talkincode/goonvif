@@ -1,8 +1,8 @@
 package networking
 
 import (
-	"net/http"
 	"bytes"
+	"net/http"
 )
 
 func SendSoap(endpoint, message string) (*http.Response, error) {
@@ -13,5 +13,5 @@ func SendSoap(endpoint, message string) (*http.Response, error) {
 		return resp, err
 	}
 
-	return resp,nil
+	return resp, nil
 }
