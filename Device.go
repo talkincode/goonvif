@@ -20,7 +20,7 @@ import (
 
 var Xlmns = map[string]string{
 	"onvif":   "http://www.onvif.org/ver10/schema",
-	"tds":     "http://www.onvif.org/ver10/device/wsdl",
+	"tds":     "http://www.onvif.org/ver10/OnvifDevice/wsdl",
 	"trt":     "http://www.onvif.org/ver10/media/wsdl",
 	"tev":     "http://www.onvif.org/ver10/events/wsdl",
 	"tptz":    "http://www.onvif.org/ver20/ptz/wsdl",
@@ -61,7 +61,7 @@ func (devType DeviceType) String() string {
 	}
 }
 
-// deviceInfo struct contains general information about ONVIF device
+// deviceInfo struct contains general information about ONVIF OnvifDevice
 type deviceInfo struct {
 	Manufacturer    string
 	Model           string
@@ -70,9 +70,9 @@ type deviceInfo struct {
 	HardwareId      string
 }
 
-// deviceInfo struct represents an abstract ONVIF device.
-// It contains methods, which helps to communicate with ONVIF device
-type device struct {
+// deviceInfo struct represents an abstract ONVIF OnvifDevice.
+// It contains methods, which helps to communicate with ONVIF OnvifDevice
+type OnvifDevice struct {
 	xaddr    string
 	login    string
 	password string
@@ -81,7 +81,7 @@ type device struct {
 	info      deviceInfo
 }
 
-func (dev *device) GetServices() map[string]string {
+func (dev *OnvifDevice) GetServices() map[string]string {
 	return dev.endpoints
 }
 
@@ -93,12 +93,12 @@ func readResponse(resp *http.Response) string {
 	return string(b)
 }
 
-func GetAvailableDevicesAtSpecificEthernetInterface(interfaceName string) []device {
+func GetAvailableDevicesAtSpecificEthernetInterface(interfaceName string) []OnvifDevice {
 	/*
 		Call an WS-Discovery Probe Message to Discover NVT type Devices
 	*/
 	devices := discovery.SendProbe(interfaceName, nil, []string{"dn:" + NVT.String()}, map[string]string{"dn": "http://www.onvif.org/ver10/network/wsdl"})
-	nvtDevices := make([]device, 0)
+	nvtDevices := make([]OnvifDevice, 0)
 	// //fmt.Println(devices)
 	for _, j := range devices {
 		doc := etree.NewDocument()
@@ -139,7 +139,7 @@ func GetAvailableDevicesAtSpecificEthernetInterface(interfaceName string) []devi
 	return nvtDevices
 }
 
-func (dev *device) getSupportedServices(resp *http.Response) {
+func (dev *OnvifDevice) getSupportedServices(resp *http.Response) {
 	// resp, err := dev.CallMethod(Device.GetCapabilities{Category:"All"})
 	// if err != nil {
 	//	log.Println(err.Error())
@@ -163,8 +163,8 @@ func (dev *device) getSupportedServices(resp *http.Response) {
 }
 
 // NewDevice function construct a ONVIF Device entity
-func NewDevice(xaddr string) (*device, error) {
-	dev := new(device)
+func NewDevice(xaddr string) (*OnvifDevice, error) {
+	dev := new(OnvifDevice)
 	dev.xaddr = xaddr
 	dev.endpoints = make(map[string]string)
 	dev.addEndpoint("Device", "http://"+xaddr+"/onvif/device_service")
@@ -183,7 +183,7 @@ func NewDevice(xaddr string) (*device, error) {
 	return dev, nil
 }
 
-func (dev *device) addEndpoint(Key, Value string) {
+func (dev *OnvifDevice) addEndpoint(Key, Value string) {
 	dev.endpoints[Key] = Value
 }
 
@@ -191,13 +191,13 @@ func (dev *device) addEndpoint(Key, Value string) {
 // Function takes <username> and <password> params.
 // You should use this function to allow authorized requests to the ONVIF Device
 // To change auth data call this function again.
-func (dev *device) Authenticate(username, password string) {
+func (dev *OnvifDevice) Authenticate(username, password string) {
 	dev.login = username
 	dev.password = password
 }
 
 // GetEndpoint returns specific ONVIF service endpoint address
-func (dev *device) GetEndpoint(name string) string {
+func (dev *OnvifDevice) GetEndpoint(name string) string {
 	return dev.endpoints[name]
 }
 
@@ -219,7 +219,7 @@ func buildMethodSOAP(msg string) (gosoap.SoapMessage, error) {
 
 // CallMethod functions call an method, defined <method> struct.
 // You should use Authenticate method to call authorized requests.
-func (dev device) CallMethod(method interface{}) (*http.Response, error) {
+func (dev OnvifDevice) CallMethod(method interface{}) (*http.Response, error) {
 	pkgPath := strings.Split(reflect.TypeOf(method).PkgPath(), "/")
 	pkg := pkgPath[len(pkgPath)-1]
 
@@ -246,7 +246,7 @@ func (dev device) CallMethod(method interface{}) (*http.Response, error) {
 }
 
 // CallNonAuthorizedMethod functions call an method, defined <method> struct without authentication data
-func (dev device) callNonAuthorizedMethod(endpoint string, method interface{}) (*http.Response, error) {
+func (dev OnvifDevice) callNonAuthorizedMethod(endpoint string, method interface{}) (*http.Response, error) {
 	// TODO: Get endpoint automatically
 	/*
 		Converting <method> struct to xml string representation
@@ -278,7 +278,7 @@ func (dev device) callNonAuthorizedMethod(endpoint string, method interface{}) (
 }
 
 // CallMethod functions call an method, defined <method> struct with authentication data
-func (dev device) callAuthorizedMethod(endpoint string, method interface{}) (*http.Response, error) {
+func (dev OnvifDevice) callAuthorizedMethod(endpoint string, method interface{}) (*http.Response, error) {
 	/*
 		Converting <method> struct to xml string representation
 	*/
