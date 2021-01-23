@@ -398,7 +398,7 @@ type GetDNS struct {
 }
 
 type GetDNSResponse struct {
-	DNSInformation onvif.DNSInformation
+	DNSInformation onvif.DNSInformation `xml:"tds:DNSInformation"`
 }
 
 type SetDNS struct {

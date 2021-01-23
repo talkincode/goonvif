@@ -7,7 +7,7 @@ import (
 	"github.com/talkincode/goonvif/PTZ"
 )
 
-func getPTZStructByName(name string) (interface{}, error) {
+func GetPTZStructByName(name string) (interface{}, error) {
 	switch name {
 	case "GetServiceCapabilities":
 		return &PTZ.GetServiceCapabilities{}, nil
@@ -70,7 +70,7 @@ func getPTZStructByName(name string) (interface{}, error) {
 	}
 }
 
-func getDeviceStructByName(name string) (interface{}, error) {
+func GetDeviceStructByName(name string) (interface{}, error) {
 	switch name {
 	case "GetServices":
 		return &Device.GetServices{}, nil
@@ -257,7 +257,7 @@ func getDeviceStructByName(name string) (interface{}, error) {
 	}
 }
 
-func getMediaStructByName(name string) (interface{}, error) {
+func GetMediaStructByName(name string) (interface{}, error) {
 	switch name {
 	case "GetServiceCapabilities":
 		return &Media.GetServiceCapabilities{}, nil

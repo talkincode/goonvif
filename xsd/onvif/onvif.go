@@ -1013,8 +1013,8 @@ type PTZPreset struct {
 }
 
 type PTZVector struct {
-	PanTilt Vector2D `xml:"onvif:PanTilt"`
-	Zoom    Vector1D `xml:"onvif:Zoom"`
+	PanTilt Vector2D `xml:"onvif:PanTilt,omitempty"`
+	Zoom    Vector1D `xml:"onvif:Zoom,omitempty"`
 }
 
 type PTZStatus struct {
@@ -1422,11 +1422,11 @@ type HostnameInformation struct {
 type HostnameInformationExtension xsd.AnyType
 
 type DNSInformation struct {
-	FromDHCP     xsd.Boolean
-	SearchDomain xsd.Token
-	DNSFromDHCP  IPAddress
-	DNSManual    IPAddress
-	Extension    DNSInformationExtension
+	FromDHCP     xsd.Boolean `xml:"tt:FromDHCP"`
+	SearchDomain xsd.Token `xml:"tt:SearchDomain"`
+	DNSFromDHCP  IPAddress `xml:"tt:DNSFromDHCP"`
+	DNSManual    IPAddress `xml:"tt:DNSManual"`
+	Extension    DNSInformationExtension `xml:"tt:DNSInformationExtension"`
 }
 
 type DNSInformationExtension xsd.AnyType

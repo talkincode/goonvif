@@ -120,11 +120,11 @@ func callNecessaryMethod(serviceName, methodName, acceptedData, username, passwo
 
 	switch strings.ToLower(serviceName) {
 	case "device":
-		methodStruct, err = getDeviceStructByName(methodName)
+		methodStruct, err = GetDeviceStructByName(methodName)
 	case "ptz":
-		methodStruct, err = getPTZStructByName(methodName)
+		methodStruct, err = GetPTZStructByName(methodName)
 	case "media":
-		methodStruct, err = getMediaStructByName(methodName)
+		methodStruct, err = GetMediaStructByName(methodName)
 	default:
 		return "", errors.New("there is no such service")
 	}

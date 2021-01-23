@@ -18,7 +18,7 @@ func readResponse(resp *http.Response) string {
 	return string(b)
 }
 
-func main() {
+func main1() {
 	// Getting an camera instance
 	dev, err := goonvif.NewDevice("192.168.0.100:80")
 	if err != nil {
