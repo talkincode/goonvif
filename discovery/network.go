@@ -2,7 +2,6 @@ package discovery
 
 import (
 	"fmt"
-	"log"
 	"net"
 	"time"
 
@@ -56,7 +55,8 @@ func sendUDPMulticast(msg string, interfaceName string) []string {
 	}
 
 	if err := p.SetReadDeadline(time.Now().Add(time.Second * 1)); err != nil {
-		log.Fatal(err)
+		fmt.Println(err)
+		return nil
 	}
 
 	for {

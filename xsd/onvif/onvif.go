@@ -1422,10 +1422,10 @@ type HostnameInformation struct {
 type HostnameInformationExtension xsd.AnyType
 
 type DNSInformation struct {
-	FromDHCP     xsd.Boolean `xml:"tt:FromDHCP"`
-	SearchDomain xsd.Token `xml:"tt:SearchDomain"`
-	DNSFromDHCP  IPAddress `xml:"tt:DNSFromDHCP"`
-	DNSManual    IPAddress `xml:"tt:DNSManual"`
+	FromDHCP     xsd.Boolean             `xml:"tt:FromDHCP"`
+	SearchDomain xsd.Token               `xml:"tt:SearchDomain"`
+	DNSFromDHCP  IPAddress               `xml:"tt:DNSFromDHCP"`
+	DNSManual    IPAddress               `xml:"tt:DNSManual"`
 	Extension    DNSInformationExtension `xml:"tt:DNSInformationExtension"`
 }
 

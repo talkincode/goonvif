@@ -8,7 +8,7 @@ import (
 )
 
 func SendSoap(endpoint, message string) (*http.Response, error) {
-	if os.Getenv("GOVNIF_DEBUG" ) == "true" || os.Getenv("GOVNIF_DEBUG" ) == "1" {
+	if os.Getenv("GOVNIF_DEBUG") == "true" || os.Getenv("GOVNIF_DEBUG") == "1" {
 		fmt.Fprintln(os.Stdout, message)
 	}
 	httpClient := new(http.Client)
